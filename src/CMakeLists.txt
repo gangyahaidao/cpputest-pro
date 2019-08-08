@@ -26,7 +26,7 @@ set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
 include(FindPkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   #将collectionc.pc.in文件复制为collectionc.pc，同时替换掉源文件中的@VAR@变量的值，之后在在使用这个库文件的时候就可以使用pkg-config进行自动配置了
-  #如：gcc file.c -o file `pkg-config --cflag --libs libxxx` 会根据.pc文件中的配置自动找到lib和include头文件
+  #如：gcc file.c -o file `pkg-config --cflags --libs collectionc` 会根据.pc文件中的配置自动找到lib和include头文件
   configure_file("collectionc.pc.in" "libcollectionc.pc" @ONLY)
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libcollectionc.pc"
     DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
