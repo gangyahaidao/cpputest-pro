@@ -11,7 +11,7 @@ file(GLOB header_files "include/*.h")
 add_library(${PROJECT_NAME} SHARED ${source_files})
 add_library(${PROJECT_NAME}_static STATIC ${source_files})
 #设置包含的头文件
-inlcude_directories("./include")
+include_directories("./include")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${header_files}")
 set_target_properties(${PROJECT_NAME}_static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
@@ -22,12 +22,13 @@ target_link_libraries(${PROJECT_NAME})
 set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
   CACHE INTERNAL "${PROJECT_NAME}: Include directories" FORCE)
 
-#加载CMake的pkg-config模块，REQUIRED、QUIET是否打印状态信息
+#生成pkg-config的支持文件，REQUIRED、QUIET是否打印状态信息
 include(FindPkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
-  #将collectionc.pc.in文件复制为collectionc.pc，同时替换掉源文件中的@VAR@变量的值
-  configure_file("collectionc.pc.in" "collectionc.pc" @ONLY)
-  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/collectionc.pc"
+  #将collectionc.pc.in文件复制为collectionc.pc，同时替换掉源文件中的@VAR@变量的值，之后在在使用这个库文件的时候就可以使用pkg-config进行自动配置了
+  #如：gcc file.c -o file `pkg-config --cflag --libs libxxx` 会根据.pc文件中的配置自动找到lib和include头文件
+  configure_file("collectionc.pc.in" "libcollectionc.pc" @ONLY)
+  install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libcollectionc.pc"
     DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
 endif()
 

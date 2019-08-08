@@ -1,9 +1,9 @@
 #要求最低的cmake版本
-cmkae_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.5)
 
 #禁止编译时污染源码树
 set(CMAKE_DISABLE_IN_SOURCE_BUILD on)
-set(CMAKE_DISABLE_SOURCE_CHANGES on)
+#set(CMAKE_DISABLE_SOURCE_CHANGES on)
 
 enable_language(C)
 enable_language(CXX)
